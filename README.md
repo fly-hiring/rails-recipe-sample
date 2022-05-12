@@ -52,7 +52,7 @@ The idea with a ping is this:
 
 ### Submissions
 
-Submissions should include a written "recipe" blog post that explains the problem being solved and shows the solution for how to do it. The goal with the recipe is to help a Rails developer figure out how to add something like this to their own project. These articles should following a specific "recipe" format. More details are included on the recipe format and what that means in [RECIPE.md](./README.md) and the [recipe style guide here](./RECIPE_STYLE_GUIDE.md).
+Submissions should include a written "recipe" blog post that explains the problem being solved and shows the solution for how to do it. The goal with the recipe is to help a Rails developer figure out how to add something like this to their own project. These articles should following a specific "recipe" format. More details are included on the recipe format and what that means in [RECIPE.md](./RECIPE.md) and the [recipe style guide here](./RECIPE_STYLE_GUIDE.md).
 
 We expect this to take some time to complete. If you're experienced, you can expect it to take about 2-3 hours.
 
