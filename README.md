@@ -27,13 +27,13 @@ Feature description:
 
 ### Why a ping?
 
-Rails Hotwire lets developers create dynamic applications that are server rendered without needing to write custom javascript or using front-ends like React or Vue. When the server is dynamically rendering the page, then the total network response time becomes important. It directly impacts the user's experience! Longer network transfer times mean a less responsive application.
+Rails Hotwire lets developers create dynamic applications that are server rendered without needing to use front-ends like React or Vue. When the server is dynamically rendering the page, then the total network response time becomes important. It directly impacts the user's experience! Longer network transfer times mean a less responsive application.
 
 At Fly.io, we're all about moving the servers closer to the users! When servers are geographically closer to users, it greatly reduces the network latency, improves the user experience, and makes Hotwire even more valuable! This project is about helping to measure and visually display the ping time from the browser to the server and back to the browser.
 
 ### What we're looking for
 
-We are looking for well written recipe articles that really highlight and use the Hotwire framework. Yes, this feature could be built using jQuery and a regular Rails Controller, but one of the benefits of Hotwire is that developers don't _need_ to write custom Javascript. And the javascript they do need can be done using the framework. We'd like to see the Hotwire framework used on the server and in the browser.
+We are looking for a well written recipe article that highlights and uses the Hotwire framework. Yes, this feature could be built using jQuery and a regular Rails Controller, but one of the benefits of Hotwire is that developers don't _need_ to write a lot of custom Javascript. And the javascript they do need can be done using the framework. We'd like to see the Hotwire framework used on the server and in the browser.
 
 ### PING Explanation
 
