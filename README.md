@@ -29,7 +29,7 @@ Feature description:
 
 Rails Hotwire lets developers create dynamic applications that are server rendered without needing to use front-ends like React or Vue. When the server is dynamically rendering the page, then the total network response time becomes important. It directly impacts the user's experience! Longer network transfer times mean a less responsive application.
 
-At Fly.io, we're all about moving the servers closer to the users! When servers are geographically closer to users, it greatly reduces the network latency, improves the user experience, and makes Hotwire even more valuable! This project is about helping to measure and visually display the ping time from the browser to the server and back to the browser.
+At Fly.io, we're all about moving the servers closer to the users! When servers are geographically closer to users, it greatly reduces the network latency, improves the user experience, and makes Hotwire even more valuable! This project is about helping to measure and visually display the ping time between the browser and server.
 
 ### What we're looking for
 
@@ -49,6 +49,8 @@ The idea with a ping is this:
 - Server responds that the request was received.
 - Client knows the local time of the first sent request and the local time of when the server response was received. Client computes the difference and this is the "ping time".
 - Ping time is displayed.
+
+Either side can initiate the ping process. The time measurement just needs to be taken on the side that started it.
 
 ### Submissions
 
