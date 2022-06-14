@@ -1,6 +1,6 @@
 # Fly.io Rails Hotwire Hiring Project
 
-Hello! This is a hiring project for our [Rails Hotwire position](https://fly.io/blog/post-link-needed/). If you apply, we'll ask you to do this project so we can assess your ability to write and create content around Rails and the Hotwire framework.
+Hello! This is a hiring project for our [Rails Hotwire position](https://fly.io/jobs/rails-specialist/). If you apply, we'll ask you to do this project so we can assess your ability to write and create content around Rails and the Hotwire framework.
 
 ## The Job
 
@@ -10,7 +10,7 @@ Here's Fly.io's not-so-secret evil plan. We make it easy to run full-stack apps 
 
 We want Fly.io to be the best place on the Internet to run Rails apps, and especially Hotwire. If you're a Rails developer that's enthusiastic about Hotwire, we need your help.
 
-You can read more about the [job posting here](https://fly.io/blog/post-link-needed/). This is the project for applying.
+You can read more about the [job posting here](https://fly.io/jobs/rails-specialist/). This is the project for applying.
 
 ## Hiring Project
 
