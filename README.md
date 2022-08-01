@@ -64,7 +64,7 @@ When you are ready to share your article with us, please submit it as a PR on th
 
 ### Resources you may find helpful
 
-- [Fly Docs](https://fly.io/docs/introduction/)
+- [Fly Docs](https://fly.io/docs/)
 - [Fly Getting Started Guides](https://fly.io/docs/getting-started/)
 - [Fly Reference Guide](https://fly.io/docs/reference/)
 
