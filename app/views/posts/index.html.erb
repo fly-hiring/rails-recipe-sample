@@ -1,1 +1,29 @@
-<h1>hello rails</h1>
+<h1>Implement Ping Tool In Rails Application Using Hotwire</h1>
+<h2>Problem</h2>
+<p>Using Rails Hotwire, developers can create dynamic applications that are server rendered without using Javascript libraries like React or Vue.<br />
+  Server-side rendered application means that the server is responsible for delivering page changes in response to events occurred on the server such as users sending messages on a chat.<br />
+  When the server dynamically renders a page, then the total network response time becomes important as it directly impacts the user's experience.<br />
+  A longer network transfer time or higher latency means a less responsive application.<br />
+
+  Determining the latency or Ping time can help developers understand how quickly a webpage or an application will load for users.
+  Developers can easily implement a Ping tool in their rails app to determine the latency.<br />
+
+  So how do we implement a Ping tool in a rails application using Hotwire?
+</p>
+<h2>Solution</h2>
+<p>For the pupose of this tutorial, we'll be setting up a new Rails application. <br />
+  However, you can skip this step if you've already set up your project. <br />
+
+  Let's follow this step by step:<br />
+
+  <h3>1. Create a new rails application:</h3>
+
+  <code>rails new pingapp</code><br />
+
+  <h3>2. Setup Hotwire</h3>
+  Hotwire, which is the combination of Stimulus and Turbo, is included in Rails 7 applications by default. <br />
+  So you don't need to set it up in case you are using rails 7. You can confirm this by visiting your Gemfile and you'll see that it includes gem 'stimulus-rails' and gem 'turbo-rails' <br /><br />
+  But if you're on Rails 6 and below, you can set it up as follows:
+
+
+</p>
