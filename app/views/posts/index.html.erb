@@ -11,7 +11,8 @@
   So how do we implement a Ping tool in a rails application using Hotwire?
 </p>
 <h2>Solution</h2>
-<p>For the pupose of this tutorial, we'll be setting up a new Rails application. <br />
+<div>
+  For the pupose of this tutorial, we'll be setting up a new Rails application. <br />
   However, you can skip this step if you've already set up your project. <br />
 
   Let's follow this step by step:<br />
@@ -23,7 +24,82 @@
   <h3>2. Setup Hotwire</h3>
   Hotwire, which is the combination of Stimulus and Turbo, is included in Rails 7 applications by default. <br />
   So you don't need to set it up in case you are using rails 7. You can confirm this by visiting your Gemfile and you'll see that it includes gem 'stimulus-rails' and gem 'turbo-rails' <br /><br />
-  But if you're on Rails 6 and below, you can set it up as follows:
+  However, if you're on Rails 6 and below, you can set it up as follows:
 
+  <h4>i) Add Stimulus</h4>
+  1. Add the stimulus-rails gem to your Gemfile: <code>gem 'stimulus-rails'</code><br />
+  2. Run <code>./bin/bundle install</code><br />
+  3. Create app/javascript/controllers/index.js and load your controllers like this:<br />
+    <code>import { application } from "controllers/application"
 
-</p>
+    import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
+    eagerLoadControllersFrom("controllers", application)</code><br />
+  4. Create app/javascript/controllers/application.js with the following content:<br />
+    <code>import { Application } from "@hotwired/stimulus"
+
+    const application = Application.start()
+
+    // Configure Stimulus development experience
+    application.debug = false
+    window.Stimulus   = application
+
+    export { application }</code><br />
+  5.Add the following line to app/javascript/application.js to import all your controllers:<br />
+    <code>import "controllers"</code><br />
+  6. Finally, Pin Stimulus and controllers in config/importmap.rb by adding:<br />
+    <code>pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
+    pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true
+    pin_all_from "app/javascript/controllers", under: "controllers"</code><br />
+
+  <h4>ii) Add Turbo and Redis</h4>
+  1. Add the turbo-rails gem to your Gemfile: <code>gem 'turbo-rails'</code><br />
+  2. Run <code>./bin/bundle install</code><br />
+  3. Run <code>./bin/rails turbo:install</code><br />
+  4. Run <code>./bin/rails turbo:install:redis</code> to change the development Action Cable adapter from Async (the default one) to Redis. <br />
+  You need to switch to Redis because the Async adapter does not support Turbo Stream broadcasting.<br />
+  That's it! We’re done with setup.<br />
+
+  <h3>3. Add a Ping controller</h3>
+  Next, we will add a controller with an action named as ping. Let's name it as PingController.<br />
+  Use the following command to create the controller:<br />
+
+  <code>rails g controller ping</code><br />
+
+  This controller should have the following code:<br />
+
+  <code>
+    class PingController < ApplicationController
+      def ping
+        render status: :ok, body: "PONG"
+      end
+    end
+  </code><br />
+
+  Let’s add a route for this action in the config/routes.rb file as follows:<br />
+
+  <code>get “/ping”, to: “ping#ping”</code><br />
+
+  Now create a form in app/views/shared/_ping.html.erb to hit this route.
+  <code>
+    <%= h
+    "<div data-controller=\"ping\">
+      <%= form_tag ping_path, method: :get, data: { action: \"turbo:before-fetch-request->ping#pauseRequest turbo:submit-end->ping#measureLatency\", \"ping-target\": \"pingForm\" } do %>
+        <%= button_tag \"Ping\" %>
+      <% end %>"
+      <!-- <span data-ping-target=\"latency\"></span>
+      </div>" %> -->
+  </code>
+  Here, we need to create a controller which will display this _ping partial. We will name this controller as HomeController and and add a show action. For this, use the following command:
+
+  rails g controller home show
+  And then we will make this action as root . Go to the routes.rb file and add this line
+
+  root to: “home#show”
+  To render ping partial, add following code in app/views/home/show.html.erb
+
+  <code>
+  <%= h "<%= render \"shared/ping\" %>" %>
+  </code>
+  At this point, we can hit the ping button. Next step is to write a function to calculate the ping time.
+
+</div>
