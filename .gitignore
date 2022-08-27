@@ -1,0 +1,87 @@
+.bundle
+.byebug_history
+.c9/
+.DS_Store
+.envrc
+.vscode
+.idea
+
+bin/spring
+
+# Ignore application configuration
+config/amazon_s3.yml
+config/application.yml
+config/app_config.yml
+config/authorize_net.yml
+config/database.yml
+config/fog.yml
+config/rackspace.yml
+config/readonly_database.yml
+config/tax_jar.yml
+config/usa_epay.yml
+
+# Ignore Test Coverage folder
+coverage
+
+# Ignore freshdesk localstore
+freshdesk/catprint/.fdk/localstore
+
+db/*.sql
+db/cms_fixtures
+db/cms_seeds
+!db/cms_seeds/.keep
+log
+nbproject/
+
+public/.DS_Store
+public/assets
+public/documents
+public/system
+public/uploads
+public/javascripts/translations.js
+public/development
+public/test
+storage/
+!storage/.keep
+
+public/sitemaps
+public/sitemap.*
+
+node_modules
+
+
+/log/*
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+/tmp/pids/*
+!/log/.keep
+!/tmp/.keep
+!/tmp/pids
+!/tmp/pids/.keep
+!/tmp/sockets
+!/tmp/sockets/.keep
+
+
+*~
+*.swp
+
+agents_online
+
+localhost.crt
+localhost.key
+
+.env
+.env.*.local
+
+# Ignore encrypted secrets key file.
+config/secrets.yml.key
+config/secrets.yml.key-master
+config/secrets.yml.key-developer
+
+# Ignore master key for decrypting credentials and more.
+config/master.key
+config/credentials/*.key
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
