@@ -1,5 +1,6 @@
 <div class="container">
   <h1>Implement Ping Tool In Rails Application Using Hotwire</h1>
+  <%= image_tag "ping_homepage.png", height: 500, class: "topimage" %>
   <h2>Problem</h2>
   <p>Using Rails Hotwire, developers can create dynamic applications that are server rendered without using Javascript libraries like React or Vue.<br /><br />
     Server-side rendered application means that the server is responsible for delivering page changes in response to events occurred on the server such as users sending messages on a chat.<br /><br />
@@ -162,4 +163,31 @@
     <code class="syntax">&ensp;&ensp;}</code><br /><br />
     <code class="syntax">}</code><br /><br />
   </div>
+  <p>Let's take a look at what we are doing on this file.<br /><br />
+    The <code class="command">pauseRequest()</code> method will pause the request using <code class="command">event.preventDefault()</code>, then
+    save the request time right after the request is sent using<br /><br /> <code class="command">setTimeout()</code>, and then
+    resume the request with <code class="command">event.detail.resume()</code>.</p>
+  <p>The <code class="command">measureLatency()</code> method will save the response time, compute the difference between the response and request time,
+    and display the result, and resubmit the form after every one second.<br /><br />
+    The reason we're using <code class="command">form.requestSubmit()</code> because <code class="command">form.submit()</code> doesn't dispatch submit events.
+  </p>
+  <p>Now we just need to update our form by adding the actions to measure the network latency when the form is submitted:</p>
+
+  <h3>5. Update the form</h3>
+  <p>In <code class="command">app/views/shared/_ping.html.erb</code>, make the following changes:</p>
+  <div class="group-code">
+    <code class="syntax"><span><</span>div data-controller="ping"></code><br />
+    <code class="syntax"><span>&ensp;&ensp;<</span>%= form_tag ping_path, method: :get, data: { action: "turbo:before-fetch-request->ping#pauseRequest turbo:submit-end->ping#measureLatency", "ping-target": "pingForm" } do %></code><br />
+    <code class="syntax"><span>&ensp;&ensp;&ensp;&ensp;<</span>%= button_tag "Ping" %></code><br />
+    <code class="syntax"><span>&ensp;&ensp;<</span>% end %></code><br />
+    <code class="syntax"><span>&ensp;&ensp;<</span>span data-ping-target="latency"><span><</span>/span></span></code><br />
+    <code class="syntax"><span><</span>/div></code>
+  </div>
+  <p>That's it! everything is set. Start your rails server with the following command:<br /><br />
+    <code class="code">rails s</code><br /><br />
+    Now you can visit <code class="command">http://localhost:3000</code> and click the <code class="command">Ping</code> button, you will see the ping time being displayed on the page after every second as shown below.</p>
+    <%= image_tag "ping.gif", height: 250 %>
+  <h2>Discussion</h2>
+  <p>This is how you can measure and monitor your application’s latency/ping time. <br /><br />
+    This tool will help you understand how responsive your app is and give you insights on further increasing your app performance.</p>
 </div>
