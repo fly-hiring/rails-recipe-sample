@@ -13,8 +13,7 @@ h1 {
 }
 
 .syntax {
-  padding-bottom: -10px;
-  padding-left: 0;
+  padding: 0;
 }
 
 .command {

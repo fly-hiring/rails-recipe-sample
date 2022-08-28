@@ -1,113 +1,165 @@
 <div class="container">
-    <h1>Implement Ping Tool In Rails Application Using Hotwire</h1>
-    <h2>Problem</h2>
-    <p>Using Rails Hotwire, developers can create dynamic applications that are server rendered without using Javascript libraries like React or Vue.<br /><br />
-      Server-side rendered application means that the server is responsible for delivering page changes in response to events occurred on the server such as users sending messages on a chat.<br /><br />
-      When the server dynamically renders a page, then the total network response time becomes important as it directly impacts the user's experience.<br /><br />
-      A longer network transfer time or higher latency means a less responsive application.<br /><br />
-      You might be looking for a way to determine the latency or Ping time in order to understand how quickly a webpage or an application will load for users.<br /><br />
-      You can easily achieve this by following this tutorial.<br /><br />
+  <h1>Implement Ping Tool In Rails Application Using Hotwire</h1>
+  <h2>Problem</h2>
+  <p>Using Rails Hotwire, developers can create dynamic applications that are server rendered without using Javascript libraries like React or Vue.<br /><br />
+    Server-side rendered application means that the server is responsible for delivering page changes in response to events occurred on the server such as users sending messages on a chat.<br /><br />
+    When the server dynamically renders a page, then the total network response time becomes important as it directly impacts the user's experience.<br /><br />
+    A longer network transfer time or higher latency means a less responsive application.<br /><br />
+    You might be looking for a way to determine the latency or Ping time in order to understand how quickly a webpage or an application will load for users.<br /><br />
+    You can easily achieve this by following this tutorial.<br /><br />
 
-      So how do we implement a Ping tool in a rails application using Hotwire?
-    </p>
-    <h2>Solution</h2>
-    <p>For the pupose of this tutorial, we'll be setting up a new Rails application.<br /><br />
-    However, you can skip this step if you've already set up your project.<br /><br />
+    So how do we implement a Ping tool in a rails application using Hotwire?
+  </p>
+  <h2>Solution</h2>
+  <p>For the pupose of this tutorial, we'll be setting up a new Rails application.<br /><br />
+  However, you can skip this step if you've already set up your project.<br /><br />
 
-    Let's follow this step by step:<br /></p>
+  Let's follow this step by step:<br /></p>
 
-    <h3>1. Create a new rails application:</h3>
+  <h3>1. Create a new rails application:</h3>
 
-    <code class="code">rails new pingapp</code><br /><br />
+  <code class="code">rails new pingapp</code><br /><br />
 
-    <h3>2. Setup Hotwire</h3>
-    <p>Hotwire, which is the combination of Stimulus and Turbo, is included in Rails 7 applications by default.<br /><br />
-    So you don't need to set it up in case you are using rails 7.<br /><br />
-    You can confirm this by visiting your Gemfile and you'll see that it includes the following lines:<br /><br /></p>
-    <code class="code">gem 'stimulus-rails'</code><br /><br />
-    <code class="code">gem 'turbo-rails'</code><br /><br />
-    <p>However, if you're on Rails 6 and below, you can set it up as follows:</p>
+  <h3>2. Setup Hotwire</h3>
+  <p>Hotwire, which is the combination of Stimulus and Turbo, is included in Rails 7 applications by default.<br /><br />
+  So you don't need to set it up in case you are using rails 7.<br /><br />
+  You can confirm this by visiting your Gemfile and you'll see that it includes the following lines:<br /><br /></p>
+  <code class="code">gem 'stimulus-rails'</code><br /><br />
+  <code class="code">gem 'turbo-rails'</code><br /><br />
+  <p>However, if you're on Rails 6 and below, you can set it up as follows:</p>
 
-    <h4>i) Add Stimulus</h4>
-    <p>1. Add the <code class="command">stimulus-rails</code> gem to your Gemfile:<br /><br />
-    <code class="code">gem 'stimulus-rails'</code><br /><br />
-    2. Run the command in the console: <code class="command">./bin/bundle install</code><br /><br />
-    3. Create <code class="command">app/javascript/controllers/index.js</code> and load your controllers like this:<br /><br />
+  <h4>i) Add Stimulus</h4>
+  <p>1. Add the <code class="command">stimulus-rails</code> gem to your Gemfile:<br /><br />
+  <code class="code">gem 'stimulus-rails'</code><br /><br />
+  2. Run the command in the console: <code class="command">./bin/bundle install</code><br /><br />
+  3. Create <code class="command">app/javascript/controllers/index.js</code> and load your controllers like this:<br /><br />
+  <div class="group-code">
+    <code class="syntax">import { application } from "controllers/application"</code><br /><br />
+    <code class="syntax">import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"</code><br /><br />
+    <code class="syntax">eagerLoadControllersFrom("controllers", application)</code><br /><br />
+  </div>
+  4. Create <code class="command">app/javascript/controllers/application.js</code> with the following code:<br /><br />
+  <div class="group-code">
+    <code class="syntax">import { Application } from "@hotwired/stimulus"</code><br /><br />
+    <code class="syntax">const application = Application.start()</code><br /><br />
+    <code class="syntax">application.debug = false</code><br /><br />
+    <code class="syntax">window.Stimulus   = application</code><br /><br />
+    <code class="syntax">export { application }</code><br />
+  </div>
+  5.Add the following line to <code class="command">app/javascript/application.js</code> to import all your controllers:<br /><br />
+    <code class="code">import "controllers"</code><br /><br />
+  6. Finally, Pin Stimulus and controllers in <code class="command">config/importmap.rb</code>  by adding:<br /><br /></p>
+  <div class="group-code">
+    <code class="syntax">pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true</code><br /><br />
+    <code class="syntax">pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true</code><br /><br />
+    <code class="syntax">pin_all_from "app/javascript/controllers", under: "controllers"</code><br /><br />
+  </div>
+  <h4>ii) Add Turbo and Redis</h4>
+  <p>1. Add the <code class="command">turbo-rails</code> gem to your Gemfile:<br /><br />
+  <code class="code">gem 'turbo-rails'</code><br /><br />
+  2. Run the command <code class="code">./bin/bundle install</code><br /><br />
+  3. Next, run the command <code class="code">./bin/rails turbo:install</code><br /><br />
+  4. Finally, run the command <code class="code">./bin/rails turbo:install:redis</code> to change the development Action Cable adapter from Async (the default one) to Redis.<br /><br />
+  You need to switch to Redis because the Async adapter does not support Turbo Stream broadcasting.<br /><br />
+  That's it! We’re done with setup.<br /></p>
+
+  <h3>3. Add a Ping controller</h3>
+  <p>Next, we will add a controller with an action named as <code class="command">ping</code>. Let's name it as <code class="command">PingController</code>.<br /><br />
+  Use the following command to create the controller:<br /><br />
+
+  <code class="code">rails g controller ping</code><br /><br />
+
+  This controller should have the following code:<br /></p>
+
+  <div class="group-code">
+    <code class="syntax">class PingController < ApplicationController</code><br />
+    <code class="syntax">&ensp;&ensp;def ping</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;render status: :ok, body: "PONG"</code><br />
+    <code class="syntax">&ensp;&ensp;end</code><br />
+    <code class="syntax">end</code>
+  </div>
+
+  <p>Next, we'll add a route for this action in the config/routes.rb file as follows:<br /></p>
+
+  <code class="code">get "/ping", to: "ping#ping"</code><br /><br />
+
+  <p>Now let's create a form in <code class="command">app/views/shared/_ping.html.erb</code> to hit this route.<br /><br /></p>
     <div class="group-code">
-      <code class="syntax">import { application } from "controllers/application"</code><br /><br />
-      <code class="syntax">import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"</code><br /><br />
-      <code class="syntax">eagerLoadControllersFrom("controllers", application)</code><br /><br />
-    </div>
-    4. Create <code class="command">app/javascript/controllers/application.js</code> with the following code:<br /><br />
-    <div class="group-code">
-      <code class="syntax">import { Application } from "@hotwired/stimulus"</code><br /><br />
-      <code class="syntax">const application = Application.start()</code><br /><br />
-      <code class="syntax">application.debug = false</code><br /><br />
-      <code class="syntax">window.Stimulus   = application</code><br /><br />
-      <code class="syntax">export { application }</code><br />
-    </div>
-    5.Add the following line to <code class="command">app/javascript/application.js</code> to import all your controllers:<br /><br />
-      <code class="code">import "controllers"</code><br /><br />
-    6. Finally, Pin Stimulus and controllers in <code class="command">config/importmap.rb</code>  by adding:<br /><br /></p>
-    <div class="group-code">
-      <code class="syntax">pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true</code><br /><br />
-      <code class="syntax">pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true</code><br /><br />
-      <code class="syntax">pin_all_from "app/javascript/controllers", under: "controllers"</code><br /><br />
-    </div>
-    <h4>ii) Add Turbo and Redis</h4>
-    <p>1. Add the <code class="command">turbo-rails</code> gem to your Gemfile:<br /><br />
-    <code class="code">gem 'turbo-rails'</code><br /><br />
-    2. Run the command <code class="code">./bin/bundle install</code><br /><br />
-    3. Next, run the command <code class="code">./bin/rails turbo:install</code><br /><br />
-    4. Finally, run the command <code class="code">./bin/rails turbo:install:redis</code> to change the development Action Cable adapter from Async (the default one) to Redis.<br /><br />
-    You need to switch to Redis because the Async adapter does not support Turbo Stream broadcasting.<br /><br />
-    That's it! We’re done with setup.<br /></p>
-
-    <h3>3. Add a Ping controller</h3>
-    <p>Next, we will add a controller with an action named as <code class="command">ping</code>. Let's name it as <code class="command">PingController</code>.<br /><br />
-    Use the following command to create the controller:<br /><br />
-
-    <code class="code">rails g controller ping</code><br /><br />
-
-    This controller should have the following code:<br /></p>
-
-    <div class="group-code">
-      <code class="syntax">class PingController < ApplicationController</code><br /><br />
-      <code class="syntax">&ensp;def ping</code><br /><br />
-      <code class="syntax">&ensp;&ensp;render status: :ok, body: "PONG"</code><br /><br />
-      <code class="syntax">&ensp;end</code><br /><br />
-      <code class="syntax">end</code>
+      <code class="syntax"><span><</span>div data-controller="ping"></code><br />
+      <code class="syntax"><span>&ensp;&ensp;<</span>%= form_tag ping_path, method: :get do %></code><br />
+      <code class="syntax"><span>&ensp;&ensp;&ensp;&ensp;<</span>%= button_tag "Ping" %></code><br />
+      <code class="syntax"><span>&ensp;&ensp;<</span>% end %></code><br />
+      <code class="syntax"><span>&ensp;&ensp;<</span>span data-ping-target="latency"><span><</span>/span></span></code><br />
+      <code class="syntax"><span><</span>/div></code>
     </div>
 
-    <p>Let’s add a route for this action in the config/routes.rb file as follows:<br /></p>
+  <p>Then we just need a <code class="command">controller</code> which will display this <code class="command">_ping</code> partial.<br /><br />
+  We'll name this controller as <code class="command">HomeController</code> and add a <code class="command">show</code> action.
+  For this, use the following command:<br /></p>
+  <code class="code">rails g controller home show</code><br />
 
-    <code>get "/ping", to: "ping#ping"</code><br />
+  <p>And then we will make this action as <code class="command">root</code>. Go to <code class="command">config/routes.rb</code> file and add this line<br /><p>
 
-    Next, we create a partial in app/views/shared/_ping.html.erb to hit this route.<br />
+  <code class="code">root to: "home#show"</code><br />
+  <p>To render the <code class="command">ping</code> partial, add following code in <code class="command">app/views/home/show.html.erb</code><br /><p>
+  <code class="code"><span><</span>%= render "shared/ping" %></code><br />
 
+  <p>Now on the homepage, we can see the Ping button.<br /><br />
 
+  In the next step, we will create a function to calculate the ping time.</p>
 
-    Then we just need a controller which will display this _ping partial. We will name this controller as HomeController and add a show action.<br />
-    For this, use the following command:<br />
+  <h3>4. Calculate ping time</h3>
+  <p>For this, we need to create a stimulus controller. Let's run the following command:<br /></p>
 
-    rails g controller home show<br />
-    And then we will make this action as root. Go to the routes.rb file and add this line<br />
+  <code class="code">rails g stimulus ping</code><br />
+  <p>This will create a file: <code class="command">app/javascript/controllers/ping_controller.js.</code><br /><br />
+  Next, we'll add the following code in this file:<br /></p>
 
-    root to: "home#show"<br />
-    To render ping partial, add following code in app/views/home/show.html.erb<br />
-
-
-
-
-    Now on the homepage, we can see the Ping button<br />
-
-    Next step is to write a function to calculate the ping time.
-
-    <h3>Calculate ping time</h3>
-  For this, we need to create a stimulus controller. Use following command for this<br />
-
-  rails g stimulus ping<br />
-  This will create a file app/javascript/controllers/ping_controller.js.<br />
-  Now add the following code in this file:<br />
-
+  <div class="group-code">
+    <code class="syntax">import { Controller } from "stimulus";</code><br />
+    <code class="syntax">export default class extends Controller {</code><br />
+    <code class="syntax">&ensp;&ensp;static targets = ["pingForm", "latency"]</code><br /><br />
+    <code class="syntax">&ensp;&ensp;pauseRequest(event) {</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;event.preventDefault();</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;setTimeout(() => this.saveRequestTime());</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;event.detail.resume();</code><br />
+    <code class="syntax">&ensp;&ensp;}</code><br /><br />
+    <code class="syntax">&ensp;&ensp;saveRequestTime() {</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;this.requestTime = new Date().getTime();</code><br />
+    <code class="syntax">&ensp;&ensp;}</code><br /><br />
+    <code class="syntax">&ensp;&ensp;measureLatency() {</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;this.saveResponseTime();</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;this.latency = this.responseTime - this.requestTime;</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;this.displayLatency();</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;setTimeout(() => this.ping(), 1000);</code><br />
+    <code class="syntax">&ensp;&ensp;}</code><br /><br />
+    <code class="syntax">&ensp;&ensp;displayLatency() {</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;this.latencyTarget.textContent = this.latency + " ms";</code><br />
+    <code class="syntax">&ensp;&ensp;}</code><br /><br />
+    <code class="syntax">&ensp;&ensp;saveResponseTime() {</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;this.responseTime = new Date().getTime();</code><br />
+    <code class="syntax">&ensp;&ensp;}</code><br /><br />
+    <code class="syntax">&ensp;&ensp;ping() {</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;this.pingFormTarget.requestSubmit();</code><br />
+    <code class="syntax">&ensp;&ensp;}</code><br /><br />
+    <code class="syntax">&ensp;&ensp;get requestTime() {</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;return this._requestTime;</code><br />
+    <code class="syntax">&ensp;&ensp;}</code><br /><br />
+    <code class="syntax">&ensp;&ensp;set requestTime(requestTime) {</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;this._requestTime = requestTime;</code><br />
+    <code class="syntax">&ensp;&ensp;}</code><br /><br />
+    <code class="syntax">&ensp;&ensp;get responseTime() {</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;return this._responseTime;</code><br />
+    <code class="syntax">&ensp;&ensp;}</code><br /><br />
+    <code class="syntax">&ensp;&ensp;set responseTime(responseTime) {</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;this._responseTime = responseTime;</code><br />
+    <code class="syntax">&ensp;&ensp;}</code><br /><br />
+    <code class="syntax">&ensp;&ensp;get latency() {</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;return this._latency;</code><br />
+    <code class="syntax">&ensp;&ensp;}</code><br /><br />
+    <code class="syntax">&ensp;&ensp;set latency(latency) {</code><br />
+    <code class="syntax">&ensp;&ensp;&ensp;&ensp;this._latency = latency;</code><br />
+    <code class="syntax">&ensp;&ensp;}</code><br /><br />
+    <code class="syntax">}</code><br /><br />
+  </div>
 </div>
