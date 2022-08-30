@@ -1,6 +1,6 @@
 # README
 
-## How to setup this project:
+## How to set up project and view the tutorial:
 
 1. Open Terminal.
 2. Navigate to your desired location to download the contents of this repository.
